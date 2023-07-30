@@ -1,0 +1,686 @@
+{
+	"info": {
+		"_postman_id": "297bd5d7-0376-458c-83c5-d31ad0cbbf4a",
+		"name": "COLLECTION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27083084"
+	},
+	"item": [
+		{
+			"name": "Chaining",
+			"item": [
+				{
+					"name": "Chain 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var status = pm.response.status;\r",
+									"console.log(status);\r",
+									"var countstart = pm.collectionVariables.get(\"start\");\r",
+									"var countend = pm.collectionVariables.get(\"end\");\r",
+									"\r",
+									"if (status == \"created\") \r",
+									"{\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"if(countstart < countend)\r",
+									"{\r",
+									"pm.collectionVariables.set(\"start\" , eval(countstart+1))\r",
+									"console.log(pm.collectionVariables.get(\"start\"))\r",
+									"postman.setNextRequest(\"Chain 3\");\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"postman.setNextRequest(null)\r",
+									"pm.collectionVariables.set(\"start\" ,0);\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{PATCH_URL}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Chain 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var status = pm.response.status;\r",
+									"console.log(status);\r",
+									"var countstart = pm.collectionVariables.get(\"start\");\r",
+									"var countend = pm.collectionVariables.get(\"end\");\r",
+									"\r",
+									"if (status == \"Ok\") \r",
+									"{\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"if(countstart < countend)\r",
+									"{\r",
+									"pm.collectionVariables.set(\"start\" , eval(countstart+1))\r",
+									"console.log(pm.collectionVariables.get(\"start\"))\r",
+									"postman.setNextRequest(\"Chain 4\");\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"postman.setNextRequest(null)\r",
+									"pm.collectionVariables.set(\"start\" ,0);\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{GET_SINGLE_USER}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Chain 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var status = pm.response.status;\r",
+									"console.log(status);\r",
+									"var countstart = pm.collectionVariables.get(\"start\");\r",
+									"var countend = pm.collectionVariables.get(\"end\");\r",
+									"\r",
+									"if (status == \"ok\") \r",
+									"{\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"if(countstart < countend)\r",
+									"{\r",
+									"pm.collectionVariables.set(\"start\" , eval(countstart+1))\r",
+									"console.log(pm.collectionVariables.get(\"start\"))\r",
+									"postman.setNextRequest(\"Chain 5\");\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"postman.setNextRequest(null)\r",
+									"pm.collectionVariables.set(\"start\" ,0);\r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{GET_DELAYED}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Last Chain 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var status = pm.response.status;\r",
+									"console.log(status);\r",
+									"var countstart = pm.collectionVariables.get(\"start\");\r",
+									"console.log(pm.collectionVariables.get(\"start\"));\r",
+									"var countend = pm.collectionVariables.get(\"end\");\r",
+									"\r",
+									"if (status == \"Bad request\") \r",
+									"{\r",
+									"pm.test(\"Status code is 400\" , function() {\r",
+									"pm.response.to.have.status(200);\r",
+									"});\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"if(countstart < countend)\r",
+									"{\r",
+									"pm.collectionVariables.set(\"start\" , eval(countstart+1))\r",
+									"console.log(pm.collectionVariables.get(\"start\"))\r",
+									"postman.setNextRequest(\" Last Chain 5\");\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"postman.setNextRequest(null)\r",
+									"pm.collectionVariables.set(\"start\" , 0 ); \r",
+									"pm.test(\"Status code is 200\" , function() {\r",
+									"pm.response.to.have.status(400); \r",
+									"});\r",
+									"}\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{post_register}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"var res_Country = responseBody.Country;\r",
+							"var res_State = responseBody.State;\r",
+							"var res_Capital = responseBody.Capital;\r",
+							"var res_Currency = responseBody.Currency;\r",
+							"var res_ID = responseBody.ID ; \r",
+							"\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_Country = requestBody.Country;\r",
+							"var req_State = requestBody.State;\r",
+							"var req_Capital = requestBody.Capital;\r",
+							"var req_Currency = requestBody.Currency; \r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,10);\r",
+							"\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,10);\r",
+							"\r",
+							"pm.test(\"Your Country is valid\" , function () {\r",
+							"pm.expect(res_Country).to.eql(req_Country);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your State is valid\" , function() {\r",
+							"pm.expect(res_State).to.eql(req_State);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your Capital is valid\" , function() {\r",
+							"pm.expect(res_Capital).to.eql(req_Capital);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your Currency is valid\" , function() {\r",
+							"pm.expect(res_Currency).to.eql(req_Currency);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"We have generated ID for your request\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Creation Date\", function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);    \r",
+							"});\r",
+							"\r",
+							"console.log(req_Country);\r",
+							"console.log(req_State);\r",
+							"console.log(req_Capital);\r",
+							"console.log(req_Currency);\r",
+							"console.log(res_ID);\r",
+							"console.log(res_createdAt);\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Country\" : \"India\",\r\n\"State\" : \"Goa\",\r\n\"Capital\" : \"Delhi\",\r\n\"Currency\" : \"INR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://reqres.in/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "dynamic",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var Country = pm.variables.replaceIn(\"{{$randomCountry}}\");\r",
+							"pm.collectionVariables.set(\"coll_Country\" , Country);\r",
+							"\r",
+							"var City = pm.variables.replaceIn(\"{{$randomCity}}\");\r",
+							"pm.collectionVariables.set(\"coll_City\" , City);\r",
+							"\r",
+							"var StreetName = pm.variables.replaceIn(\"{{$randomStreetName}}\");\r",
+							"pm.collectionVariables.set(\"coll_StreetName\" , StreetName);\r",
+							"\r",
+							"var BankAccount = pm.variables.replaceIn(\"{{$randomBankAccount}}\");\r",
+							"pm.collectionVariables.set(\"coll_BankAccount\" , BankAccount);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"var res_Country = responseBody.Country;\r",
+							"var res_City = responseBody.City;\r",
+							"var res_StreetName = responseBody.StreetName;\r",
+							"var res_BankAccount = responseBody.BankAccount;\r",
+							"var res_ID = responseBody.ID ; \r",
+							"\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_Country = requestBody.Country;\r",
+							"var req_City = requestBody.City;\r",
+							"var req_StreetName = requestBody.StreetName;\r",
+							"var req_BankAccount = requestBody.BankAccount; \r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,10);\r",
+							"\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,10);\r",
+							"\r",
+							"pm.test(\"Your Country is valid\" , function () {\r",
+							"pm.expect(res_Country).to.eql(req_Country);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your City is valid\" , function() {\r",
+							"pm.expect(res_City).to.eql(req_City);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your StreetName is valid\" , function() {\r",
+							"pm.expect(res_StreetName).to.eql(req_StreetName);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your BankAccount is valid\" , function() {\r",
+							"pm.expect(res_BankAccount).to.eql(req_BankAccount);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"We have generated ID for your request\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Creation Date\", function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);  \r",
+							"});\r",
+							"\r",
+							"console.log(req_Country);\r",
+							"console.log(req_City);\r",
+							"console.log(req_StreetName);\r",
+							"console.log(req_BankAccount);\r",
+							"console.log(res_ID);\r",
+							"console.log(res_createdAt);\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Country\" : \"{{coll_Country}}\",\r\n\"City\" : \"{{coll_City}}\",\r\n\"StreetName\" : \"{{coll_StreetName}}\",\r\n\"BankAccount\" : \"{{coll_BankAccount}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "data driven test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);    \r",
+							"});\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_Country = requestBody.Country;\r",
+							"var req_City = requestBody.City;\r",
+							"var req_StreetName = requestBody.StreetName;\r",
+							"var req_BankAccount = requestBody.BankAccount;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"console.log(responseBody);\r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,13);\r",
+							"\r",
+							"var res_Country = responseBody.Country; \r",
+							"var res_City = responseBody.City; \r",
+							"var res_StreetName = responseBody.StreetName; \r",
+							"var res_BankAccount = responseBody.BankAccount; \r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,13);\r",
+							"\r",
+							"pm.test(\"Validate Country\" , function() {\r",
+							"pm.expect(res_Country).to.eql(req_Country);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate City\" , function() {\r",
+							"pm.expect(res_City).to.eql(req_City);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate StreetName\" , function() {\r",
+							"pm.expect(res_StreetName).to.eql(req_StreetName);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate BankAccount\" , function() {\r",
+							"pm.expect(res_BankAccount).to.eql(req_BankAccount);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"validate DATE\",function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Country\" : \"{{Country}}\" ,\r\n\"City\" : \"{{City}}\",\r\n\"StreetName\" : \"{{StreetName}}\",\r\n\"BankAccount\" : \"{{BankAccount}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Retry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.status;\r",
+							"console.log(status);\r",
+							"var countstart = pm.collectionVariables.get(\"start\");\r",
+							"var countend = pm.collectionVariables.get(\"end\");\r",
+							"\r",
+							"if (status == \"created\") \r",
+							"{\r",
+							"pm.test(\"Status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"if(countstart < countend)\r",
+							"{\r",
+							"pm.collectionVariables.set(\"start\", eval(countstart+2));\r",
+							"console.log(pm.collectionVariables.get(\"start\"))\r",
+							"postman.setNextRequest(\"Retry\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"postman.setNextRequest(null)\r",
+							"pm.collectionVariables.set(\"start\",0 );\r",
+							"pm.test(\"Status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});}}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\" : \"Mona\" ,\r\n\"job\" : \"QA\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://reqres.in/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "req_chain",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.status;\r",
+							"console.log(status);\r",
+							"var start = pm.collectionVariables.get(\"start\");\r",
+							"var end = pm.collectionVariables.get(\"end\");\r",
+							"\r",
+							"if(status == \"OK\") {\r",
+							"pm.test(\"status code is 200\" , function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"}\r",
+							"else {\r",
+							"if(start<end) {\r",
+							"pm.collectionVariables.set(\"start\" , eval(start+1));\r",
+							"postman.setNewRequest(\"req_chain\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"postman.setNextRequest(null);\r",
+							"pm.collectionVariables.set(\"start\" , 0);\r",
+							"pm.test(\"status code is 200\" , function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"}\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\" : \"Mona\",\r\n\"job\" : \"QA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{Put_URL}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "coll_Country",
+			"value": ""
+		},
+		{
+			"key": "coll_City",
+			"value": ""
+		},
+		{
+			"key": "coll_StreetName",
+			"value": ""
+		},
+		{
+			"key": "coll_BankAccount",
+			"value": ""
+		},
+		{
+			"key": "Country",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "City",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "StreetName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "BankAccount",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "city",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "start",
+			"value": "0"
+		},
+		{
+			"key": "end",
+			"value": "5",
+			"type": "string"
+		},
+		{
+			"key": "count_start",
+			"value": ""
+		},
+		{
+			"key": "count_end",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "coll_name",
+			"value": ""
+		},
+		{
+			"key": "coll_job",
+			"value": ""
+		},
+		{
+			"key": "coll_firstname",
+			"value": ""
+		},
+		{
+			"key": "coll_lastname",
+			"value": ""
+		},
+		{
+			"key": "coll_country",
+			"value": ""
+		}
+	]
+}

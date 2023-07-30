@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "bdce9b8e-e0af-436f-8331-4543b8cd3f99",
+		"name": "GET_REFRENCE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27083084"
+	},
+	"item": [
+		{
+			"name": "get list users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{GET_LIST_USERS}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get single user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "{{GET_SINGLE_USER}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get single user not found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{GET_SINGLE_USER_NOT_FOUND}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get list resource",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{GET_LIST_RESOURCE}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get single resource",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{GET_SINGLE_RESOURCE}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get single resource not found",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get delayed response",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{GET_DELAYED}}"
+			},
+			"response": []
+		},
+		{
+			"name": "get single user AUTOMATION",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\" , function() {\r",
+							"pm.response.to.have.status(200);    \r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"\r",
+							"var res_first = responseBody.first;\r",
+							"var res_last = responseBody.last;\r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_email = responseBody.email;\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate FIRST NAME\" , function() {\r",
+							"pm.expect(res_first).to.eql(\"Janet\");    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate LAST NAME\" , function() {\r",
+							"pm.expect(res_last).to.eql(\"Weaver\");    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);   \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate Email\" , function() {\r",
+							"pm.expect(res_email).to.eql(\"janet.weaver@reqres.in\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 2,\r\n        \"email\": \"janet.weaver@reqres.in\",\r\n        \"first_name\": \"Janet\",\r\n        \"last_name\": \"Weaver\",\r\n        \"avatar\": \"https://reqres.in/img/faces/2-image.jpg\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{Put_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "register successful automation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var email = pm.variables.replaceIn(\"{{$randomEmail}}\");\r",
+							"pm.collectionVariables.set(\"coll_email\" , email);\r",
+							"\r",
+							"var password = pm.variables.replaceIn(\"{{$randomPassword}}\");\r",
+							"pm.collectionVariables.set(\"coll_password\" , password);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\" , function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"}) ;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_ID = requestBody.ID;\r",
+							"var ID = responseBody.ID;\r",
+							"\r",
+							"pm.test(\"validate ID\" , function() {\r",
+							"pm.expect(ID).to.eql(req_ID);\r",
+							"})\r",
+							"\r",
+							"var req_name = requestBody.name;\r",
+							"var name = responseBody.name;\r",
+							"\r",
+							"pm.test(\"validate name\" , function() {\r",
+							"pm.expect(name).to.eql(req_name);\r",
+							"});\r",
+							"\r",
+							"var req_year = requestBody.year ;\r",
+							"var year = responseBody.year ;\r",
+							"\r",
+							"pm.test(\"validate year\" ,function() {\r",
+							"pm.expect(year).to.eql(req_year);\r",
+							"});\r",
+							" \r",
+							"var req_color = requestBody.color;\r",
+							"var color = responseBody.color ;\r",
+							"\r",
+							"pm.test(\"validate color\" ,function() {\r",
+							"pm.expect(color).to.eql(req_color);\r",
+							"});\r",
+							"\r",
+							"var req_pantone = requestBody.pantone_value;\r",
+							"pantone = responseBody.pantone_value;\r",
+							"\r",
+							"pm.test(\"validate pantone value\" , function() {\r",
+							"pm.expect(pantone).to.eql(req_pantone);\r",
+							"});\r",
+							"\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n//\"email\" : \"eve.holt@reqres.in\",\r\n//\"password\" : \"pistol\"\r\n\"email\" : \"{{coll_email}}\",\r\n\"password\" : \"{{coll_password}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{GET_REGISTER}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Iteration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.status;\r",
+							"console.log(status);\r",
+							"var start = pm.collectionVariables.get(\"start\");\r",
+							"var stop = pm.colectionVariables.get(\"stop\");\r",
+							"\r",
+							"if ( status == create ) {\r",
+							"pm.test(\"Status code validated\", function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"})\r",
+							"}\r",
+							"\r",
+							"else {\r",
+							"if (start < stop ) \r",
+							"{\r",
+							"pm.collectionVariables.set(\"start\" , eval(start+1));\r",
+							"console.log(pm.collectionVariables.get(\"start\"))\r",
+							"postman.setNextRequest(\"Iteration\");\r",
+							"}\r",
+							"else {\r",
+							"postman.setNextRequest(null)\r",
+							"pm.collectionVariables.set(\"start\",0 );\r",
+							"pm.test(\"Status code is 200\" , function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"}\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "coll_email",
+			"value": ""
+		},
+		{
+			"key": "coll_password",
+			"value": ""
+		},
+		{
+			"key": "coll_page",
+			"value": ""
+		},
+		{
+			"key": "start",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "stop",
+			"value": "10",
+			"type": "string"
+		}
+	]
+}

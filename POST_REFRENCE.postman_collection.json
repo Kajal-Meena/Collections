@@ -1,0 +1,1001 @@
+{
+	"info": {
+		"_postman_id": "e12fbe19-c8b7-478f-a635-632cc64a59db",
+		"name": "POST_REFRENCE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27083084"
+	},
+	"item": [
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\" , function() \r",
+							"{\r",
+							"pm.response.to.have.status(200);    \r",
+							"})\r",
+							"var responseBody = pm.response.json();\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"\r",
+							"\r",
+							"var req_ID= requestBody.ID;\r",
+							"var ID = responseBody.ID;\r",
+							"\r",
+							"pm.test(\"validate ID\" , function() {\r",
+							"pm.expect(ID).to.eql(req_ID);\r",
+							"});\r",
+							"\r",
+							"var res_token = responseBody.token ;\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validated token\",function() {\r",
+							"pm.expect(res_token).to.not.null;    \r",
+							"});\r",
+							"\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody);\r",
+							"console.log(ID);\r",
+							"console.log(res_token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\r\n{\r\n\"email\" : \"eve.holt@reqres.in\",\r\n\"password\" : \"pistol\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{GET_REGISTER}}"
+			},
+			"response": []
+		},
+		{
+			"name": "unregister",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function() {\r",
+							"pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var error = responseBody.error;\r",
+							"\r",
+							"pm.test(\"validate error\" , function() {\r",
+							"pm.expect(error).to.eql(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"console.log(error);\r",
+							"console.log(responseBody);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"sydney@fife\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{GET_REGISTER}}"
+			},
+			"response": []
+		},
+		{
+			"name": "login successful_DDT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function() {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validated token\" , function() {\r",
+							"    pm.expect(responseBody).to.not.null;\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_LOGIN_SUCCESSFUL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "login unsuccessful",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"peter@klaven\"\r\n}"
+				},
+				"url": "{{POST_LOGIN_SUCCESSFUL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "single user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);    \r",
+							"});\r",
+							"\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var date = new Date().toISOString().slice(0,10);\r",
+							"\r",
+							"var res_name = responseBody.name;\r",
+							"var res_job = responseBody.job;\r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_CreatedAt = responseBody.createdAt;\r",
+							"res_CreatedAt = res_CreatedAt.slice(0,10);\r",
+							"\r",
+							"pm.test(\"Validate NAME\" , function() {\r",
+							"pm.expect(res_name).to.eql(\"Morpheus\");    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate JOB\" , function() {\r",
+							"pm.expect(res_job).to.eql(\"Leader\");    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"validate DATE\",function() {\r",
+							"pm.expect(res_CreatedAt).to.eql(date);    \r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\": \"Morpheus\",\r\n\"job\" :  \"Leader\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "single user_dynamic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);    \r",
+							"});\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_name = requestBody.name;\r",
+							"var req_job = requestBody.job;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,13);\r",
+							"\r",
+							"var res_name = responseBody.name;\r",
+							"var res_job = responseBody.job;\r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,13);\r",
+							"\r",
+							"pm.test(\"Validate NAME\" , function() {\r",
+							"pm.expect(res_name).to.eql(req_name);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate JOB\" , function() {\r",
+							"pm.expect(res_job).to.eql(req_job);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"validate DATE\",function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);    \r",
+							"});\r",
+							"\r",
+							"console.log(req_name);\r",
+							"console.log(req_job);\r",
+							"console.log(date);\r",
+							"console.log(res_name);\r",
+							"console.log(res_job);\r",
+							"console.log(res_ID);\r",
+							"console.log(res_createdAt);\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var name = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"pm.collectionVariables.set(\"coll_name\" , name);\r",
+							"\r",
+							"var job = pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"pm.collectionVariables.set(\"coll_job\",job);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\": \"{{coll_name}}\",\r\n\"job\" :  \"{{coll_job}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "login successful_dynamic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function(){\r",
+							"pm.response.to.have.status(400);    \r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var requestBody = pm.request.body.raw ;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody);\r",
+							"\r",
+							"var error = responseBody.error ;\r",
+							"\r",
+							"pm.test(\"It has error\" , function() {\r",
+							"pm.expect(error).to.eql(\"user not found\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var password = pm.variables.replaceIn(\"{{$randomPassword}}\");\r",
+							"pm.collectionVariables.set(\"collection_password\" , password);\r",
+							"\r",
+							"var email = pm.variables.replaceIn(\"{{$randomEmail}}\");\r",
+							"pm.collectionVariables.set(\"coll_email\" , email);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{coll_email}}\",\r\n    \"password\" : \"{{collection_password}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_LOGIN_SUCCESSFUL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "post login unsuccessful automation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function(){\r",
+							"pm.response.to.have.status(400);    \r",
+							"});\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"var req_error = requestBody.error;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var res_error = responseBody.error ;\r",
+							"\r",
+							"pm.test(\"Error\" ,function() {\r",
+							"pm.expect(res_error).to.eql(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"console.log(responseBody);\r",
+							"console.log(res_error);\r",
+							"console.log(requestBody);\r",
+							"console.log(req_error);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var email = pm.variables.replaceIn(\"{{$randomEmail}}\");\r",
+							"pm.collectionVariables.set(\"coll_email\", email);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\" : \"{{coll_email}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_LOGIN}}"
+			},
+			"response": []
+		},
+		{
+			"name": "subjects_dynamic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"//console.log(requestBody);\r",
+							"var requestBody = pm.request.body ;\r",
+							"requestBody = JSON.parse(requestBody) ;\r",
+							"\r",
+							"var res_phy = responseBody.phy ;\r",
+							"var req_phy = requestBody.phy ;\r",
+							"\r",
+							"pm.test(\"validated physics\" , function() {\r",
+							"pm.expect(res_phy).to.eql(req_phy);\r",
+							"});\r",
+							"\r",
+							"var res_chem = responseBody.chemistry ;\r",
+							"var req_chem = requestBody.chemistry ;\r",
+							"\r",
+							"pm.test(\"validated chemistry\" , function() {\r",
+							"pm.expect(res_chem).to.eql(req_chem) ;\r",
+							"});\r",
+							"\r",
+							"var res_exp = responseBody.Experience ; \r",
+							"var req_exp = requestBody.Experience ;\r",
+							"\r",
+							"pm.test(\"validated experience\" , function() {\r",
+							"pm.expect(res_exp).to.eql(req_exp);\r",
+							"});\r",
+							"\r",
+							"var res_inst = responseBody.Institute ;\r",
+							"var req_inst = requestBody.Institute ;\r",
+							"\r",
+							"pm.test(\"validated inst \" , function() {\r",
+							"pm.expect(res_inst).contains(req_inst);\r",
+							"}) ;\r",
+							"\r",
+							"var res_perform = responseBody.Performance ;\r",
+							"var req_per = requestBody.Performance;\r",
+							"\r",
+							"pm.test(\"I have validated your performance\" , function() {\r",
+							"   // pm.expect(res_perform).contains(req_per);\r",
+							"pm.expect(res_perform).to.eql(req_per) ;\r",
+							"}) ;\r",
+							"\r",
+							"var ID = responseBody.Id ;\r",
+							"// var request\r",
+							"pm.test(\"validated ID\" , function() {\r",
+							"pm.expect(ID).to.not.null;\r",
+							"});\r",
+							"\r",
+							"//var date = new Date().toISOString().slice(0,10) ;\r",
+							"//var date = new Date().toISOString().slice(0,26);\r",
+							"//var date = new Date().toJSON().slice(0,22);\r",
+							"var date = new Date().toJSON().slice(0,11);\r",
+							"console.log(date); \r",
+							"\r",
+							"var creation = responseBody.createdAt ;\r",
+							"//creation = creation.slice(0,22);\r",
+							"//creation = creation.slice(0,26);\r",
+							"creation = creation.slice(0,11) ;\r",
+							"\r",
+							"pm.test(\"validate creation date\" , function() {\r",
+							"pm.expect(creation).to.eql(date);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var phy = pm.variables.replaceIn('{{$randomFullName}}');\r",
+							"pm.collectionVariables.set(\"coll_phy\",phy);\r",
+							"\r",
+							"var chemistry = pm.variables.replaceIn('{{$randomFullName}}');\r",
+							"pm.collectionVariables.set(\"coll_chemistry\",chemistry);\r",
+							"\r",
+							"var Institute  = pm.variables.replaceIn('{{$randomFullName}}');\r",
+							"pm.collectionVariables.set(\"coll_Institute\",Institute);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"phy\" : \"{{coll_phy}}\",\r\n\"chemistry\" : \"{{coll_chemistry}}\" , \r\n\"Experience\" : 5 ,\r\n\"Institute\" : \"{{coll_Institute}}\" ,\r\n\"Performance\" : \"Good\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{GET_SINGLE_USER}}"
+			},
+			"response": []
+		},
+		{
+			"name": "register successful_dynamic",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var email = pm.variables.replaceIn(\"{{$randomEmail}}\");\r",
+							"pm.collectionVariables.set(\"coll_email\" , email);\r",
+							"\r",
+							"var password = pm.variables.replaceIn(\"{{$randomPassword}}\");\r",
+							"pm.collectionVariables.set(\"coll_password\" , password);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function() {\r",
+							"pm.response.to.have.status(400);\r",
+							"}) ;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var ID = responseBody.ID;\r",
+							"\r",
+							"pm.test(\"validate ID\" , function() {\r",
+							"pm.expect(ID).to.not.null;\r",
+							"})\r",
+							"\r",
+							"var token = responseBody.token;\r",
+							"\r",
+							"pm.test(\"Validated token\",function() {\r",
+							"pm.expect(token).to.not.null;    \r",
+							"});\r",
+							"\r",
+							"console.log(responseBody);\r",
+							"console.log(token);\r",
+							"console.log(ID);\r",
+							"console.log(requestBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\" : \"{{coll_email}}\",\r\n\"password\" : \"{{coll_password}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{post_register}}"
+			},
+			"response": []
+		},
+		{
+			"name": "unregister_dynamic",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var email = pm.variables.replaceIn(\"{{$randomEmail}}\");\r",
+							"pm.collectionVariables.set(\"coll_email\",email);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function() {\r",
+							"pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var error = responseBody.error;\r",
+							"\r",
+							"pm.test(\"validate error\" , function() {\r",
+							"pm.expect(error).to.eql(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"console.log(error);\r",
+							"console.log(responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{coll_email}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{post_register}}"
+			},
+			"response": []
+		},
+		{
+			"name": "register_data driven testing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\" , function() \r",
+							"{\r",
+							"pm.response.to.have.status(400);    \r",
+							"})\r",
+							"var responseBody = pm.response.json();\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"\r",
+							"\r",
+							"var req_ID= requestBody.ID;\r",
+							"var ID = responseBody.ID;\r",
+							"\r",
+							"pm.test(\"validate ID\" , function() {\r",
+							"pm.expect(ID).to.eql(req_ID);\r",
+							"});\r",
+							"\r",
+							"var res_token = responseBody.token ;\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validated token\",function() {\r",
+							"pm.expect(res_token).to.not.null;    \r",
+							"});\r",
+							"\r",
+							"console.log(requestBody);\r",
+							"console.log(responseBody);\r",
+							"console.log(ID);\r",
+							"console.log(res_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{post_register}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DDT_email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);    \r",
+							"});\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_email = requestBody.email;\r",
+							"var req_password = requestBody.password;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"console.log(responseBody);\r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,13);\r",
+							"\r",
+							"var res_email = responseBody.email; \r",
+							"var res_password = responseBody.password; \r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,13);\r",
+							"\r",
+							"pm.test(\"Validate email\" , function() {\r",
+							"pm.expect(res_email).to.eql(req_email);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate password\" , function() {\r",
+							"pm.expect(res_password).to.eql(req_password);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"validate DATE\",function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\" : \"{{email}}\" ,\r\n\"password\" : \"{{password}}\"\r\n}\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "name_city",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);    \r",
+							"});\r",
+							"\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"\r",
+							"var req_name = requestBody.name;\r",
+							"var req_city = requestBody.city;\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"console.log(responseBody);\r",
+							"\r",
+							"var date = new Date().toISOString().slice(0,13);\r",
+							"\r",
+							"var res_name = responseBody.name; \r",
+							"var res_city = responseBody.city; \r",
+							"var res_ID = responseBody.ID;\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,13);\r",
+							"\r",
+							"pm.test(\"Validate name\" , function() {\r",
+							"pm.expect(res_name).to.eql(req_name);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate city\" , function() {\r",
+							"pm.expect(res_city).to.eql(req_city);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate ID\" , function() {\r",
+							"pm.expect(res_ID).to.not.null;\r",
+							"pm.expect(res_ID).to.not.eql(0);    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"validate DATE\",function() {\r",
+							"pm.expect(res_createdAt).to.eql(date);    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\" : \"{{name}}\" ,\r\n\"city\" : \"{{city}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Iterations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.status;\r",
+							"var start = pm.collectionVariables.get(\"count_start\");\r",
+							"var end = pm.collectionVariables.get(\"count_end\");\r",
+							"\r",
+							"if(status == \"created\") {\r",
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"}\r",
+							"else {\r",
+							"if(start<end) {\r",
+							"pm.collectionVariables.set(\"count_start\" , eval(start+1));\r",
+							"postman.setNewRequest(\"Iterations\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"postman.setNextRequest(null);\r",
+							"pm.collectionVariables.set(\"count_start\" , 0);\r",
+							"console.log(status);\r",
+							"pm.test(\"status code is 201\" , function() {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							"}\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{POST_URL}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "coll_name",
+			"value": ""
+		},
+		{
+			"key": "coll_job",
+			"value": ""
+		},
+		{
+			"key": "coll_email",
+			"value": ""
+		},
+		{
+			"key": "coll_password",
+			"value": ""
+		},
+		{
+			"key": "coll_phy",
+			"value": ""
+		},
+		{
+			"key": "coll_chemistrychemistry",
+			"value": ""
+		},
+		{
+			"key": "coll_Institute",
+			"value": ""
+		},
+		{
+			"key": "coll_chemistry",
+			"value": ""
+		},
+		{
+			"key": "collection_password",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "start",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "end",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "city",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "count_start",
+			"value": ""
+		}
+	]
+}

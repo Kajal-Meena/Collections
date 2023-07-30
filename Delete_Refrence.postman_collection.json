@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "1f922623-0bfc-4396-b707-e957cf7e4e72",
+		"name": "Delete_Refrence",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27083084"
+	},
+	"item": [
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{DELETE_URL}}"
+			},
+			"response": []
+		}
+	]
+}
